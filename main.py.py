@@ -18,7 +18,7 @@ timing = float(input("How much time between each check?: "))
 timing_mode = input("Seconds/minutes/hours/days? (s/m/h/d): ").strip().lower()
 
 # Number of cycles
-cycles = int(input("How many cycles?: "))
+cycles = int(input("How many cycles?(-1 if forever): "))
 
 # Time multiplier map
 multipliers = {
@@ -30,7 +30,7 @@ multipliers = {
 wait = timing * multipliers.get(timing_mode, 1)
 
 # Main check loop
-while cycles > 0:
+while cycles != 0:
     try:
         response = requests.get(site)
         log(f"Status: {response.status_code}")
@@ -38,4 +38,5 @@ while cycles > 0:
         log(f"Error: {e}")
 
     time.sleep(wait)
-    cycles -= 1
+    if cycles > 0:
+        cycles -= 1
